@@ -1,0 +1,36 @@
+from moviepy.editor import *
+
+# Определяем пути к аудио и видеофайлам
+# Define the paths of the audio and video files
+# audio_path = "C:\\Users\\hover\\Music\\Playlists\\ХАБИБ - Ягода малинка (Премьера клипа).webm"
+# video_path = "C:\\Users\\hover\\Videos\\Working\\ХАБИБ - Ягода малинка (Премьера клипа).webm"
+audio_path = input(f'Всавьте в консоль путь к папке и файлу аудио (shift+insert):\n')
+video_path = input(f'Всавьте в консоль путь к папке и файлу видео (shift+insert):\n')
+
+'''
+Этот код ниже - нужен для объединения кодов для скачивания отдельно аудио и отдельно видео(смотреть мои посты), 
+с последующей обработкой и микшированием видео с аудио, из папок/директорий, куда они скачались по указанным 
+для скачивания папкам/директориям. 
+В данной отдельной программе он нам не нужен, т.к. вставляем путь к файлу вручную - через консоль после запуска 
+кода.
+This code below is needed to combine the codes for downloading separately audio and separately video (watch my 
+posts), with subsequent processing and mixing of video with audio, from folders / directories where they were 
+downloaded from the folders/directories specified for downloading. 
+In this separate program, we do not need it, because we insert the path to the file manually - through the console 
+after running the code.
+'''
+# audio_path = audio_file
+# video_path = video_file
+
+# Создание экземпляров видеоклипа и аудиофайла
+# Create instances of VideoFileClip and AudioFileClip
+video_clip = VideoFileClip(video_path)
+audio_clip = AudioFileClip(audio_path)
+
+# Объединяем аудио и видеоклип
+# Merge the audio and video clips
+video_clip_with_audio = video_clip.set_audio(audio_clip)
+
+# Записываем объединенный видеофайл в новый файл
+# Write the merged video file to a new file
+video_clip_with_audio.write_videofile("C:\\Users\\hover\\Videos\\Working\\File - Created.mp4")
