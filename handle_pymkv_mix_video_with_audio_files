@@ -1,0 +1,9 @@
+from pymkv import MKVFile, MKVTrack
+
+video_file = input(f'Всавьте в консоль путь к папке и файлу видео (shift+insert):\n')
+audio_file = input(f'Всавьте в консоль путь к папке и файлу аудио (shift+insert):\n')
+output_file = input(f'Всавьте в консоль путь к выходной папке и напишите "название файла".mkv (shift+insert):\n')
+mkv = MKVFile()
+mkv.add_track(video_file)
+mkv.add_track(MKVTrack(audio_file))
+mkv.mux(output_file)
