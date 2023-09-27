@@ -1,0 +1,84 @@
+from pytube import YouTube
+
+# Всавьте в консоль ссылку на видео с Youtube, которое вы хотите загрузить.(shift+insert)
+# Paste the link to the Youtube video you want to download into the console.(shift+insert)
+video_link = input(f'Всавьте в консоль ссылку (shift+insert):\n')
+
+# Создаём объект стрима YouTube
+# Creating a YouTube stream object
+if video_link:
+    video = YouTube(video_link, use_oauth=True, allow_oauth_cache=True)
+    print()
+    # Фильтрация звука. Расширение файла может быть mp4/webm/и т.д.
+    # Filtering the audio. File extension can be mp4/webm/etc.
+    # Вы можете посмотреть все доступные потоки в консоли с помощью печати(video.streams)
+    # You can view all available streams in the console using print(video.streams)
+    print(f'Возможные выходные форматы с ютуба скорости потока аудио:')
+    audio_list = video.streams.filter(only_audio=True)
+    for i in audio_list:
+        print(i)
+    # Создаём итерируемый объект из потока Stream
+    # Creating an iterable object from the Stream
+    lst = iter(audio_list)
+    # Создаём список для принятия данных из итерируемого объекта lst
+    # Creating a list to accept data from an iterated lst object
+    ls = []
+    for i in lst:
+        ls.append(i)
+    # Создаём список для принятия обработанных данных списка - ls
+    # Creating a list to accept the processed list data - ls
+    lis = []
+    # Запускакем цикл для обработки данных стрима и получения нужного значения потока аудио
+    # Start the loop to process the stream data and get the desired audio stream value
+    if ls:
+        for n in range(len(ls)):
+            dd = str(ls[n])
+            dd1 = dd.split()
+            dd2 = list(dd1)
+            dd3 = dd2[3]
+            dd4 = str(dd3)
+            result0 = ''.join(filter(lambda t: t.isdigit(), dd4))
+            result1 = str(result0)
+            lis.append(result1)
+    # Создаём объект из нужгого нам значения. В этом случае максимального битрейта
+    # Creating an object from the value we need. In this case, the maximum bitrate
+    bit_max = lis.pop()
+    print()
+    '''
+    # Можем для загрузки применить и iteg. Но для этого нужно либо вручную добавить в код(расшарпить строку в этом 
+    блоке ниже, скопировав вставив), либо переписать код под iteg. В загрузке "только видео(без аудио)" применена 
+    именно такая схема.
+    # We can also use iteg for downloading. But to do this, you either need to manually add to the code (share a 
+    line in this in the block below, by copying and pasting), or rewrite the code for iteg. In the download "video 
+    only (without audio)" is applied this is exactly the scheme.
+    # audio = video.streams.get_by_itag(int(input()))
+    '''
+    # Выбираем через фильтр нужный нам поток и скачиваем его в указанную папку/директорию
+    # Select the stream we need through the filter and download it to the specified folder/directory
+    audio = video.streams.filter(abr=f"{bit_max}kbps").first()
+    audio_file = audio.download(output_path='C:\\.....\\.....\\Music\\Playlists')
+    # Получим название аудиофайла и его место хранения
+    # Get the name of the audio file and its storage location
+    print(f'Выходная папка полученного файла и его название:')
+    print(audio_file)
+    print()
+    # Выведем информацию о потоке/битрейте полученном аудио в файл
+    # Output information about the stream/bitrate of the received audio to a file
+    print(f'Выходной формат и данные о кодеке полученного файла:')
+    print(audio)
+    '''
+    # We can move the file (the name for each file is different) to the specified folder/directory
+    # To transfer an audio file to the desired folder, share the code below,
+    # specifying the correct/desired file name from the working directory, and assign
+    # the desired path, for example r'C:\\Users\\hover\\Videos\\Playlist'
+    # Можем переместить файл(название для каждого файла своё) в указанную папку/директорию
+    # Для переноса аудио файла в нужную папку расшарпить код ниже,
+    # указав верное/нужное название файла из рабочей директории, и назначить
+    # нужный путь, например r'C:\\.....\\.....\\Music\\Playlists'
+    '''
+    # shutil.move('DIGITALO - NEVER SAY NEVER (short mix 2016).webm', r'C:\.....\.....\Music\Playlists')
+
+# Для обработки исключения
+# To handle exception
+else:
+    print("Connection Error")
