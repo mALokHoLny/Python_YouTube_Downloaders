@@ -1,0 +1,74 @@
+from pytube import YouTube
+
+# Всавьте в консоль ссылку на видео с Youtube, которое вы хотите загрузить.(shift+insert)
+# Paste the link to the Youtube video you want to download into the console.(shift+insert)
+video_link = input(f'Всавьте в консоль ссылку (shift+insert):\n')
+
+# Создаём объект стрима YouTube
+# Creating a YouTube stream object
+if video_link:
+    video = YouTube(video_link, use_oauth=True, allow_oauth_cache=True)
+    # Фильтрация видео. Расширение файла может быть mp4/webm/и т.д.
+    # Filtering the video. File extension can be mp4/webm/etc.
+    # Вы можете посмотреть все доступные потоки в консоли с помощью печати(video.streams)
+    # You can view all available streams in the console using print(video.streams)
+    print(f'Возможные выходные форматы с ютуба скорости потока видео:')
+    video_list = video.streams.filter(only_video=True)
+    for i in video_list:
+        print(i)
+    # Создаём итерируемый объект из потока Stream
+    # Creating an iterable object from the Stream
+    v_lst = iter(video_list)
+    # Создаём список для принятия данных из итерируемого объекта v_lst
+    # Creating a list to accept data from an iterated v_lst object
+    v_ls = []
+    for n in v_lst:
+        v_ls.append(n)
+    # Создаём список для принятия обработанных данных списка - v_ls
+    # Creating a list to accept the processed list data - v_ls
+    v_lis = []
+    # Запускакем цикл для обработки данных стрима и получения нужного значения потока видео по iteg
+    # Start the loop to process the stream data and get the desired video stream value by iteg
+    if v_ls:
+        for n in range(len(v_ls)):
+            v_dd = str(v_ls[n])
+            v_dd1 = v_dd.split()
+            v_dd2 = list(v_dd1)
+            v_dd3 = v_dd2[1]
+            v_dd4 = str(v_dd3)
+            v_result0 = ''.join(filter(lambda t: t.isdigit(), v_dd4))
+            v_result1 = str(v_result0)
+            v_lis.append(v_result1)
+    # Создаём объект из нужгого нам значения. В этом случае максимального битрейта по iteg
+    # Creating an object from the value we need. In this case, the maximum bitrate by iteg
+    v_bit_max = int(v_lis[0])
+    print()
+    # Вставляем нужный нам iteg и скачиваем его в указанную папку/директорию
+    # Insert the iteg we need and download it to the specified folder/directory
+    video = video.streams.get_by_itag(v_bit_max)
+    video_file = video.download(output_path='C:\\.....\\.....\\Videos\\Working') # Substitute your path to the folder/Подставьте свой путь к папке
+    # Получим название видеофайла и его место хранения
+    # Get the name of the video file and its storage location
+    print(f'Выходная папка полученного файла и его название:')
+    print(video_file)
+    print()
+    # Выведем информацию о потоке/битрейте полученном видео в файл
+    # Output information about the stream/bitrate of the received video to a file
+    print(f'Выходной формат и данные о кодеке полученного файла:')
+    print(video)
+    '''
+    # We can move the file (the name for each file is different) to the specified folder/directory
+    # To transfer an video file to the desired folder, share the code below,
+    # specifying the correct/desired file name from the working directory, and assign
+    # the desired path, for example r'C:\\.....\\.....\\Videos\\Playlist'
+    # Можем переместить файл(название для каждого файла своё) в указанную папку/директорию
+    # Для переноса видео файла в нужную папку расшарпить код ниже,
+    # указав верное/нужное название файла из рабочей директории, и назначить
+    # нужный путь, например r'C:\\.....\\.....\\Music\\Playlists'
+    '''
+    # shutil.move('DIGITALO - NEVER SAY NEVER (short mix 2016).webm', r'C:\.....\.....\Videos\Playlists')
+
+# to handle exception
+# для обработки исключения
+else:
+    print("Connection Error")
