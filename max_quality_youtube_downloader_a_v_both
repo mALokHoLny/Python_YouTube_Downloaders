@@ -1,0 +1,130 @@
+from pytube import YouTube
+from pymkv import MKVFile, MKVTrack
+
+# Создадим объект mkv
+# Creating an mkv object
+mkv = MKVFile()
+# Всавьте в консоль ссылку на видео с Youtube, которое вы хотите загрузить.(shift+insert)
+# Paste the link to the Youtube video you want to download into the console.(shift+insert)
+video_link = input(f'Всавьте(shift+insert) в консоль ссылку и нажми(enter):\n')
+# Создадим путь к папке выходного файла и его названия.mkv
+# Create the path to the output file folder and its name.mkv
+output_file = input(f'Всавьте(shift+insert) в консоль путь к выходной папке и напишите "название файла".mkv:\n')
+# Создаём объект стрима YouTube
+# Creating a YouTube stream object
+if video_link:
+    video = YouTube(video_link, use_oauth=True, allow_oauth_cache=True)
+    print()
+    # Фильтрация звука. Расширение файла может быть mp4/webm/и т.д.
+    # Filtering the audio. File extension can be mp4/webm/etc.
+    # Вы можете посмотреть все доступные потоки в консоли с помощью печати(video.streams)
+    # You can view all available streams in the console using print(video.streams)
+    print(f'Возможные выходные форматы с ютуба скорости потока аудио:')
+    audio_list = video.streams.filter(only_audio=True)
+    for i in audio_list:
+        print(i)
+    # Создаём итерируемый объект из потока Stream
+    # Creating an iterable object from the Stream
+    lst = iter(audio_list)
+    # Создаём список для принятия данных из итерируемого объекта lst
+    # Creating a list to accept data from an iterated lst object
+    ls = []
+    for i in lst:
+        ls.append(i)
+    # Создаём список для принятия обработанных данных списка - ls
+    # Creating a list to accept the processed list data - ls
+    lis = []
+    # Запускакем цикл для обработки данных стрима и получения нужного значения потока аудио
+    # Start the loop to process the stream data and get the desired audio stream value
+    if ls:
+        for n in range(len(ls)):
+            dd = str(ls[n])
+            dd1 = dd.split()
+            dd2 = list(dd1)
+            dd3 = dd2[3]
+            dd4 = str(dd3)
+            result0 = ''.join(filter(lambda t: t.isdigit(), dd4))
+            result1 = str(result0)
+            lis.append(result1)
+    # Создаём объект из нужгого нам значения. В этом случае максимального битрейта
+    # Creating an object from the value we need. In this case, the maximum bitrate
+    bit_max = lis.pop()
+    print()
+    # Выбираем через фильтр нужный нам поток и скачиваем его в указанную папку/директорию
+    # Select the stream we need through the filter and download it to the specified folder/directory
+    audio = video.streams.filter(abr=f"{bit_max}kbps").first()
+    audio_file = audio.download(output_path='C:\\.....\\.....\\Music\\Playlists')
+    # Получим название аудиофайла и его место хранения
+    # Get the name of the audio file and its storage location
+    print(f'Выходная папка полученного аудио файла и его название:')
+    print(audio_file)
+    mkv.add_track(MKVTrack(audio_file))
+    # Выведем информацию о потоке/битрейте полученном аудио в файл
+    # Output information about the stream/bitrate of the received audio to a file
+    print(f'Выходной формат и данные о кодеке полученного аудио файла:')
+    print(audio)
+    print()
+# Для обработки исключения
+# To handle exception
+else:
+    print("Connection Error")
+
+# Создаём объект стрима YouTube
+# Creating a YouTube stream object
+if video_link:
+    video = YouTube(video_link, use_oauth=True, allow_oauth_cache=True)
+    # Фильтрация видео. Расширение файла может быть mp4/webm/и т.д.
+    # Filtering the video. File extension can be mp4/webm/etc.
+    # Вы можете посмотреть все доступные потоки в консоли с помощью печати(video.streams)
+    # You can view all available streams in the console using print(video.streams)
+    print(f'Возможные выходные форматы с ютуба скорости потока видео:')
+    video_list = video.streams.filter(only_video=True)
+    for i in video_list:
+        print(i)
+    # Создаём итерируемый объект из потока Stream
+    # Creating an iterable object from the Stream
+    v_lst = iter(video_list)
+    # Создаём список для принятия данных из итерируемого объекта v_lst
+    # Creating a list to accept data from an iterated v_lst object
+    v_ls = []
+    for n in v_lst:
+        v_ls.append(n)
+    # Создаём список для принятия обработанных данных списка - v_ls
+    # Creating a list to accept the processed list data - v_ls
+    v_lis = []
+    # Запускакем цикл для обработки данных стрима и получения нужного значения потока видео по iteg
+    # Start the loop to process the stream data and get the desired video stream value by iteg
+    if v_ls:
+        for n in range(len(v_ls)):
+            v_dd = str(v_ls[n])
+            v_dd1 = v_dd.split()
+            v_dd2 = list(v_dd1)
+            v_dd3 = v_dd2[1]
+            v_dd4 = str(v_dd3)
+            v_result0 = ''.join(filter(lambda t: t.isdigit(), v_dd4))
+            v_result1 = str(v_result0)
+            v_lis.append(v_result1)
+    # Создаём объект из нужгого нам значения. В этом случае максимального битрейта по iteg
+    # Creating an object from the value we need. In this case, the maximum bitrate by iteg
+    v_bit_max = int(v_lis[0])
+    print()
+    # Вставляем нужный нам iteg и скачиваем его в указанную папку/директорию
+    # Insert the iteg we need and download it to the specified folder/directory
+    video = video.streams.get_by_itag(v_bit_max)
+    video_file = video.download(output_path='C:\\.....\\.....\\Videos\\Working')
+    # Получим название видеофайла и его место хранения
+    # Get the name of the video file and its storage location
+    print(f'Выходная папка полученного видео файла и его название:')
+    print(video_file)
+    mkv.add_track(video_file)
+    # Выведем информацию о потоке/битрейте полученном видео в файл
+    # Output information about the stream/bitrate of the received video to a file
+    print(f'Выходной формат и данные о кодеке полученного видео файла:')
+    print(video)
+    print()
+
+# to handle exception
+# для обработки исключения
+else:
+    print("Connection Error")
+mkv.mux(output_file)
